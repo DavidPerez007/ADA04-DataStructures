@@ -1,18 +1,22 @@
+import DELink.DELinkList;
+
 public class LinkedListApp {
     public static void main(String[] args) {
-        LinkList list = new LinkList();
+        DELinkList<String> list = new DELinkList();
         try {
-            list.insertDecreasedSorting(21);
-            list.insertDecreasedSorting(11.2);
-            list.insertDecreasedSorting(41.2);
-            list.insertDecreasedSorting(44);
-            list.insertDecreasedSorting(1178.2);
-            list.insertDecreasedSorting(7);
+            list.insertFirst("Joselito");
+            list.insertFirst("Manolito");
+            list.insertFirst("Davisito");
+            list.insertFirst("Marianito");
+            list.insertFirst("Arturitu");
+            list.insertFirst("Josefino");
             list.displayList();
             list.deleteLinkByPosition(7);
             list.displayList();
         } catch (LinkException e) {
             System.out.println(e.getMessage());
+        } catch(Exception a){
+            a.printStackTrace();
         }
         
 
