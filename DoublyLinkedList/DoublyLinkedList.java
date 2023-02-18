@@ -20,9 +20,9 @@ public class DoublyLinkedList<T> {
         if (isEmpty()) {
             last = newLink;
         } else {
-            first.previous = newLink;
+            first.setPrevious(newLink);
         }
-        newLink.next = first;
+        newLink.setNext(first);
         first = newLink;
         size++;
     }
@@ -37,8 +37,8 @@ public class DoublyLinkedList<T> {
         if (isEmpty()) {
             first = newLink;
         } else {
-            last.next = newLink;
-            newLink.previous = last;
+            last.setNext(newLink);
+            newLink.setPrevious(last);
         }
         last = newLink;
         size++;
@@ -90,18 +90,18 @@ public class DoublyLinkedList<T> {
         if (isEmpty()) {
             insertFirst(d);
         } else {
-            if (d instanceof Double || d instanceof Integer) {
+            if (d instanceof Integer) {
                 try {
-                    while ((Double) current.getData() < (Double) d) {
-                        current = current.next;
+
+                    while ((Integer)current.getData() < (Integer)d) {
+                        current = current.getNext();
                     }
                     if (isFirstNode(current)) {
                         insertFirst(d);
                     } else {
                         insertMiddle(d, current);
                     }
-
-                } catch (Exception NullPointerException) {
+                } catch (NullPointerException e) {
                     insertLast(d);
                 }
             }
@@ -122,17 +122,16 @@ public class DoublyLinkedList<T> {
         if (isEmpty()) {
             insertFirst(d);
         } else {
-            if (d instanceof Double || d instanceof Integer) {
+            if (d instanceof Integer) {
                 try {
-                    while ((Double) current.getData() < (Double) d) {
-                        current = current.next;
+                    while ((Integer) current.getData() > (Integer) d) {
+                        current = current.getNext();
                     }
                     if (isFirstNode(current)) {
                         insertFirst(d);
                     } else {
                         insertMiddle(d, current);
                     }
-
                 } catch (Exception NullPointerException) {
                     insertLast(d);
                 }
@@ -150,10 +149,10 @@ public class DoublyLinkedList<T> {
      */
     public void insertMiddle(T d, DoublyLink<T> current) {
         DoublyLink<T> newLink = new DoublyLink<T>(d);
-        newLink.next = current;
-        newLink.previous = current.previous;
-        current.previous.next = newLink;
-        current.previous = newLink;
+        newLink.setNext(current);
+        newLink.setPrevious(current.getPrevious());
+        current.getPrevious().setNext(newLink);
+        current.setPrevious(newLink);
         size++;
     }
 
@@ -172,7 +171,7 @@ public class DoublyLinkedList<T> {
             throw new EmptyListException("La lista está vacía");
         try {
             while (current.getData() != previousValue) {
-                current = current.next;
+                current = current.getNext();
             }
             current.setData(newValue);
         } catch (NullPointerException e) {
@@ -197,7 +196,7 @@ public class DoublyLinkedList<T> {
             throw new EmptyListException("La lista está vacía");
         try {
             for (int i = 0; i < nodePosition; i++) {
-                current = current.next;
+                current = current.getNext();
             }
             current.setData(newValue);
         } catch (NullPointerException e) {
@@ -219,7 +218,7 @@ public class DoublyLinkedList<T> {
             throw new EmptyListException("La lista está vacía");
         try {
             while (current.getData() != value) {
-                current = current.next;
+                current = current.getNext();
             }
             if (current == first) {
                 return deleteFirstNode();
@@ -247,7 +246,7 @@ public class DoublyLinkedList<T> {
             throw new EmptyListException("La lista está vacía");
         try {
             for (int i = 0; i < position; i++) {
-                current = current.next;
+                current = current.getNext();
             }
             if (isFirstNode(current)) {
                 return deleteFirstNode();
@@ -271,8 +270,8 @@ public class DoublyLinkedList<T> {
         if (isEmpty())
             throw new EmptyListException("La lista está vacía");
         DoublyLink<T> nodeToDelete = first;
-        first = first.next;
-        first.previous = null;
+        first = first.getNext();
+        first.setPrevious(null);
         return nodeToDelete;
     }
 
@@ -286,8 +285,8 @@ public class DoublyLinkedList<T> {
         if (isEmpty())
             throw new EmptyListException("La lista está vacía");
         DoublyLink<T> nodeToDelete = last;
-        last = last.previous;
-        last.next = null;
+        last = last.getPrevious();
+        last.setNext(null);
         return nodeToDelete;
     }
 
@@ -302,8 +301,8 @@ public class DoublyLinkedList<T> {
         if (isEmpty())
             throw new EmptyListException("La lista está vacía");
         DoublyLink<T> nodeToDelete = node;
-        node.previous.next = node.next;
-        node.next.previous = node.previous;
+        node.getPrevious().setNext(node.getNext());
+        node.getNext().setPrevious(node.getPrevious());
         return nodeToDelete;
     }
 
@@ -348,7 +347,7 @@ public class DoublyLinkedList<T> {
         }
         DoublyLink<T> current = first;
         for (int i = 0; i < index; i++) {
-            current = current.next;
+            current = current.getNext();
         }
         return current.getData();
     }
@@ -364,7 +363,7 @@ public class DoublyLinkedList<T> {
         int position = 0;
         try {
             while (current.getData() != value) {
-                current = current.next;
+                current = current.getNext();
                 position++;
             }
             return position;
@@ -393,7 +392,7 @@ public class DoublyLinkedList<T> {
         System.out.print("first->");
         while (current != null) {
             System.out.print(current.getData() + "->");
-            current = current.next;
+            current = current.getNext();
         }
         System.out.println("last");
     }

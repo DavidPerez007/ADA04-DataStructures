@@ -9,29 +9,64 @@ class DoublyLink<T> {
      * El valor que almacena el nodo. Tipo genérico
      */
     private T data;
-    public DoublyLink<T> next;
-    public DoublyLink<T> previous;
+    private DoublyLink<T> next;
+    private DoublyLink<T> previous;
 
     public DoublyLink(T d) {
         this.data = d;
     }
 
     /**
-     * @return the data
+     * Obtiene el valor almacenado en el nodo
+     * 
+     * @return el valor almacenado en el nodo
      */
     public T getData() {
         return this.data;
     }
 
     /**
-     * Setea el valor del nodo
+     * Establece el valor almacenado en el nodo
      * 
-     * @param d
-     * @return
+     * @param d el nuevo valor que se desea almacenar en el nodo
      */
-    public int setData(T d) {
+    public void setData(T d) {
         this.data = d;
-        return 1;
     }
 
+    /**
+     * Obtiene el nodo siguiente en la lista
+     * 
+     * @return el nodo siguiente en la lista
+     */
+    public DoublyLink<T> getNext() {
+        return next;
+    }
+
+    /**
+     * Establece el nodo siguiente en la lista
+     * 
+     * @param next el nuevo nodo siguiente en la lista
+     */
+    public void setNext(DoublyLink<T> next) {
+        this.next = next;
+    }
+
+    /**
+     * Obtiene el nodo anterior en la lista
+     * 
+     * @return el nodo anterior en la lista
+     */
+    public DoublyLink<T> getPrevious() {
+        return previous;
+    }
+
+    /**
+     * Establece el nodo anterior en la lista
+     * 
+     * @param previous el nuevo nodo anterior en la lista
+     */
+    public void setPrevious(DoublyLink<T> previous) {
+        this.previous = previous;
+    }
 }

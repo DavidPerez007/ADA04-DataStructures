@@ -252,34 +252,6 @@ public class test {
             System.out.println("-----------------------------");
             System.out.println("El tamaño de la lista es: " + list.getSize());
 
-            // limpiar la lista
-            System.out.println("limpiar la lista");
-            list.clear();
-            list.displayList();
-            System.out.println("-----------------------------");
-
-            // alternando asc y desc
-            System.out.println("alternando asc y desc");
-            list.insertarOrdenadoAscendente(3);
-            list.displayList();
-            System.out.println("-----------------------------");
-            list.insertarOrdenadoDescendente(40);
-            list.displayList();
-            System.out.println("-----------------------------");
-            list.insertarOrdenadoAscendente(9);
-            list.displayList();
-            System.out.println("-----------------------------");
-            list.insertarOrdenadoDescendente(1);
-            list.displayList();
-            System.out.println("-----------------------------");
-            list.insertarOrdenadoAscendente(700);
-            list.displayList();
-            System.out.println("-----------------------------");
-            list.insertarOrdenadoDescendente(58);
-            list.displayList();
-            System.out.println("-----------------------------");
-            System.out.println("El tamaño de la lista es: " + list.getSize());
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
