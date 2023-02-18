@@ -1,20 +1,20 @@
-class LinkList {
-    private Link first;
+class LinkList<T>{
+    private Link<T> first;
 
     public LinkList() {
         first = null;
     }
 
-    public void insertFirst(double dd) {
-        Link newLink = new Link(dd);
+    public void insertFirst(T dd) {
+        Link<T> newLink = new Link<T>(dd);
         newLink.setNext(first);
         first = newLink;
     }
 
-    public void insertLast(double dd) {
-        Link newLink = new Link(dd);
-        Link currentLink = first;
-        Link previousLink = null;
+    public void insertLast(T dd) {
+        Link<T> newLink = new Link<T>(dd);
+        Link<T> currentLink = first;
+        Link<T> previousLink = null;
         if (isEmpty()) {
             insertFirst(dd);
         } else {
@@ -27,14 +27,14 @@ class LinkList {
         }
     }
 
-    public void insertIncreasedSorting(double dd) {
-        Link newLink = new Link(dd);
-        Link current = first;
-        Link previous = null;
-        if (isEmpty() || current.getData() > dd) {
+    public void insertIncreasedSorting(T dd) {
+        Link<T> newLink = new Link<T>(dd);
+        Link<T> current = first;
+        Link<T> previous = null;
+        if (isEmpty() || castToDouble(current.getData()) > castToDouble(dd)) {
             insertFirst(dd);
         } else {
-            while (current != null && current.getData() < dd) {
+            while (current != null && castToDouble(current.getData()) < castToDouble(dd)) {
                 previous = current;
                 current = current.getNext();
             }
@@ -44,14 +44,14 @@ class LinkList {
 
     }
 
-    public void insertDecreasedSorting(double dd) {
-        Link newLink = new Link(dd);
-        Link current = first;
-        Link previous = null;
-        if (isEmpty() || current.getData() < dd) {
+    public void insertDecreasedSorting(T dd) {
+        Link<T> newLink = new Link<T>(dd);
+        Link<T> current = first;
+        Link<T> previous = null;
+        if (isEmpty() || castToDouble(current.getData()) < castToDouble(dd)) {
             insertFirst(dd);
         } else {
-            while (current != null && current.getData() > dd) {
+            while (current != null && castToDouble(current.getData()) > castToDouble(dd)) {
                 previous = current;
                 current = current.getNext();
             }
@@ -60,8 +60,8 @@ class LinkList {
         }
     }
 
-    public Link deleteFirst() throws LinkException {
-        Link temp = null;
+    public Link<T> deleteFirst() throws LinkException {
+        Link<T> temp = null;
         if (!isEmpty()) {
             temp = first;
             first = first.getNext();
@@ -70,9 +70,9 @@ class LinkList {
         throw new LinkException("Couldnt delete, the list is empty");
     }
 
-    public Link deleteLast() throws LinkException {
-        Link currentLink = first;
-        Link previousLink = null;
+    public Link<T> deleteLast() throws LinkException {
+        Link<T> currentLink = first;
+        Link<T> previousLink = null;
         if (!isEmpty()) {
             while (currentLink.getNext() != null) {
                 previousLink = currentLink;
@@ -84,9 +84,9 @@ class LinkList {
         throw new LinkException("Couldnt delete, the list is empty");
     }
 
-    public Link deleteLinkByValue(double value) throws LinkException {
-        Link currentLink = first;
-        Link previousLink = null;
+    public Link<T> deleteLinkByValue(T value) throws LinkException {
+        Link<T> currentLink = first;
+        Link<T> previousLink = null;
         while (currentLink != null) {
             if (currentLink.getData() == value && previousLink == null) {
                 deleteFirst();
@@ -103,9 +103,9 @@ class LinkList {
         throw new LinkException("Error 404: there is no node with " + value + " value, couldnt update");
     }
 
-    public Link deleteLinkByPosition(int position) throws LinkException {
-        Link currentLink = first;
-        Link previousLink = null;
+    public Link<T> deleteLinkByPosition(int position) throws LinkException {
+        Link<T> currentLink = first;
+        Link<T> previousLink = null;
         int counter = 0;
         if (position == 0) {
             deleteFirst();
@@ -123,8 +123,8 @@ class LinkList {
         throw new LinkException("List overflow, the list has less than " + position + " elements");
     }
 
-    public void updateLinkByValue(double oldValue, double newValue) throws LinkException {
-        Link currentLink = first;
+    public void updateLinkByValue(T oldValue, T newValue) throws LinkException {
+        Link<T> currentLink = first;
         while (currentLink != null) {
             if (currentLink.getData() == oldValue) {
                 currentLink.setData(newValue);
@@ -135,8 +135,8 @@ class LinkList {
         throw new LinkException("Error 404: node not found, couldnt update");
     }
 
-    public void updateLinkByPosition(int position, double newValue) throws LinkException {
-        Link currentLink = first;
+    public void updateLinkByPosition(int position, T newValue) throws LinkException {
+        Link<T> currentLink = first;
         int counter = 0;
         while (currentLink != null) {
             if (counter == position) {
@@ -150,8 +150,8 @@ class LinkList {
 
     }
 
-    public Link findLink(double value) throws LinkException {
-        Link current = first;
+    public Link<T> findLink(T value) throws LinkException {
+        Link<T> current = first;
         while (current != null) {
             if (current.getData() == value) {
                 return current;
@@ -161,8 +161,8 @@ class LinkList {
         throw new LinkException("Error 404: node not found");
     }
 
-    public int findPosition(double value) {
-        Link current = first;
+    public int findPosition(T value) {
+        Link<T> current = first;
         int counter = 0;
         if (isEmpty()) {
             return -1;
@@ -180,7 +180,7 @@ class LinkList {
 
     public void displayList() {
         System.out.print("List (first--> ");
-        Link current = first;
+        Link<T> current = first;
         while (current != null) {
             current.displayLink();
             current = current.getNext();
@@ -189,7 +189,7 @@ class LinkList {
     }
 
     public int getSize() {
-        Link currentLink = first;
+        Link<T> currentLink = first;
         int counter = 0;
         while (currentLink != null) {
             counter++;
@@ -202,8 +202,8 @@ class LinkList {
         first = null;
     }
 
-    public double getElementAt(int position) throws LinkException {
-        Link current = first;
+    public T getElementAt(int position) throws LinkException {
+        Link<T> current = first;
         int counter = 0;
         while (current != null) {
             if (counter == position) {
@@ -215,12 +215,12 @@ class LinkList {
         throw new LinkException("List overflow, the list has less than " + position + " elements");
     }
 
-    public Link returnFirstLink() {
+    public Link<T> returnFirstLink() {
         return this.first;
     }
 
-    public Link returnLastLink() {
-        Link current = first;
+    public Link<T> returnLastLink() {
+        Link<T> current = first;
         while (current != null) {
             current = current.getNext();
         }
@@ -230,4 +230,16 @@ class LinkList {
     public boolean isEmpty() {
         return (first == null);
     }
+
+    public static <T> double castToDouble(T value) {
+        if (value instanceof Double) {
+            return (double) value;
+        } else if (value instanceof String) {
+            return Double.parseDouble((String) value);
+        } else {
+            throw new IllegalArgumentException("El valor no se puede convertir a double");
+        }
+    }
+    
+    
 }

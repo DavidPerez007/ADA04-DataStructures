@@ -1,8 +1,8 @@
-public class Link {
-    private double dData;
-    private Link next; 
+public class Link<T> {
+    private T dData;
+    private Link<T> next; 
 
-    public Link(double dd) {
+    public Link(T dd) {
         dData = dd;
     }
 
@@ -10,19 +10,19 @@ public class Link {
         System.out.print("{" + dData + "} ");
     }
 
-    public void setData(double data){
+    public void setData(T data){
         this.dData = data;
     }
 
-    public double getData(){
+    public T getData(){
         return this.dData;
     }
 
-    public void setNext(Link next){
+    public void setNext(Link<T> next){
         this.next = next;
     }
     
-    public Link getNext(){
+    public Link<T> getNext(){
         return this.next;
     }
 }
