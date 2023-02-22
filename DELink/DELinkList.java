@@ -1,5 +1,7 @@
 package DELink;
 
+import javax.naming.LinkException;
+
 public class DELinkList<T> {
 
     private DELink<T> first;
@@ -67,6 +69,128 @@ public class DELinkList<T> {
 
         }
 
+    }
+
+    public void updateLinkByValue(T oldValue, T newValue) throws LinkException {
+        DELink<T> currentLink = first;
+        while (currentLink != null) {
+            if (currentLink.getData() == oldValue) {
+                currentLink.setData(newValue);
+            } else {
+                currentLink = currentLink.getNext();
+            }
+        }
+        throw new LinkException("Error 404: node not found, couldnt update");
+    }
+
+    public void updateLinkByPosition(int position, T newValue) throws LinkException {
+        DELink<T> currentLink = first;
+        int counter = 0;
+        while (currentLink != null) {
+            if (counter == position) {
+                currentLink.setData(newValue);
+            } else {
+                currentLink = currentLink.getNext();
+                counter++;
+            }
+        }
+        throw new LinkException("List overflow, the list has less than " + position + " elements");
+
+    }
+
+    public DELink<T> deleteLinkByValue(T value) throws LinkException {
+        DELink<T> currentLink = first;
+        DELink<T> previousLink = null;
+        if (currentLink.getData() == value && previousLink == null) {
+            deleteFirst();
+            return currentLink;
+        }
+        while (currentLink != null) {
+            if (currentLink.getData() == value) {
+                if (currentLink == last) {
+                    deleteLast();
+                } else {
+                    previousLink.setNext(currentLink.getNext());
+                    return currentLink;
+                }
+
+            }
+            previousLink = currentLink;
+            currentLink = currentLink.getNext();
+        }
+        return previousLink;
+    }
+
+    public DELink<T> deleteLinkByPosition(int position) throws LinkException {
+        DELink<T> currentLink = first;
+        DELink<T> previousLink = null;
+        int counter = 0;
+        if (position == 0) {
+            deleteFirst();
+        } else {
+            while (currentLink != null && counter < position) {
+                previousLink = currentLink;
+                currentLink = currentLink.getNext();
+                counter++;
+            }
+            
+            if (counter == position && currentLink != null) {
+                if(currentLink == last){
+                    deleteLast();
+                }
+                previousLink.setNext(currentLink.getNext());
+                return currentLink;
+            } else {
+                throw new LinkException("List overflow, the list has less than " + position + " elements");
+            }
+        }
+        return currentLink;
+    }
+
+    public DELink<T> deleteFirst() throws LinkException {
+        DELink<T> temp = null;
+        if (!isEmpty()) {
+            temp = first;
+            first = first.getNext();
+            return temp;
+        }
+        throw new LinkException("Couldnt delete, the list is empty");
+    }
+
+    public DELink<T> deleteLast() throws LinkException {
+        DELink<T> currentLink = first;
+        DELink<T> previousLink = null;
+        if (!isEmpty()) {
+            while (currentLink.getNext() != null) {
+                previousLink = currentLink;
+                currentLink = currentLink.getNext();
+            }
+            previousLink.setNext(null);
+            last = previousLink;
+            return currentLink;
+        }
+        throw new LinkException("Couldnt delete, the list is empty");
+    }
+
+    public int findPosition(T value) {
+        DELink<T> current = first;
+        int counter = 0;
+        if (isEmpty()) {
+            return -1;
+        } else {
+            while (current != null) {
+                if (current.getData() == value) {
+                    return counter;
+                }
+                current = current.getNext();
+                counter++;
+            }
+        }
+        return -1;
+    }
+
+    public void clearList() {
+        first = null;
     }
 
     public DELink<T> returnFirstLink() {

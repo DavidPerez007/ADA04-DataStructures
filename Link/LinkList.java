@@ -31,15 +31,19 @@ class LinkList<T>{
         Link<T> newLink = new Link<T>(dd);
         Link<T> current = first;
         Link<T> previous = null;
-        if (isEmpty() || castToDouble(current.getData()) > castToDouble(dd)) {
-            insertFirst(dd);
-        } else {
-            while (current != null && castToDouble(current.getData()) < castToDouble(dd)) {
-                previous = current;
-                current = current.getNext();
+        try {
+            if (isEmpty() || castToDouble(current.getData()) > castToDouble(dd)) {
+                insertFirst(dd);
+            } else {
+                while (current != null && castToDouble(current.getData()) < castToDouble(dd)) {
+                    previous = current;
+                    current = current.getNext();
+                }
+                previous.setNext(newLink);
+                newLink.setNext(current);
             }
-            previous.setNext(newLink);
-            newLink.setNext(current);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         }
 
     }
@@ -48,15 +52,19 @@ class LinkList<T>{
         Link<T> newLink = new Link<T>(dd);
         Link<T> current = first;
         Link<T> previous = null;
-        if (isEmpty() || castToDouble(current.getData()) < castToDouble(dd)) {
-            insertFirst(dd);
-        } else {
-            while (current != null && castToDouble(current.getData()) > castToDouble(dd)) {
-                previous = current;
-                current = current.getNext();
+        try {
+            if (isEmpty() || castToDouble(current.getData()) < castToDouble(dd)) {
+                insertFirst(dd);
+            } else {
+                while (current != null && castToDouble(current.getData()) > castToDouble(dd)) {
+                    previous = current;
+                    current = current.getNext();
+                }
+                previous.setNext(newLink);
+                newLink.setNext(current);
             }
-            previous.setNext(newLink);
-            newLink.setNext(current);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         }
     }
 
@@ -150,16 +158,6 @@ class LinkList<T>{
 
     }
 
-    public Link<T> findLink(T value) throws LinkException {
-        Link<T> current = first;
-        while (current != null) {
-            if (current.getData() == value) {
-                return current;
-            }
-            current = current.getNext();
-        }
-        throw new LinkException("Error 404: node not found");
-    }
 
     public int findPosition(T value) {
         Link<T> current = first;
@@ -231,7 +229,7 @@ class LinkList<T>{
         return (first == null);
     }
 
-    public static <T> double castToDouble(T value) {
+    public static <T> double castToDouble(T value) throws IllegalArgumentException {
         if (value instanceof Double) {
             return (double) value;
         } else if (value instanceof String) {
