@@ -111,13 +111,15 @@ public class DoublyLinkedList<T> {
         }
     }
 
-     /**
+
+    
+    /**
      * Inserta de manera ordenada descendente, recibe un valor genérico de tipo T
      * 
      * @param d
      * @throws IllegalArgumentException
-     */
-    public void insertarOrdenadoDescendente(T d) throws IllegalArgumentException{
+     */ 
+    public void insertarOrdenadoDescendente(T d) throws IllegalArgumentException {
         DoublyLink<T> current = first;
         if (isEmpty()) {
             insertFirst(d);
@@ -136,12 +138,12 @@ public class DoublyLinkedList<T> {
                 } catch (Exception NullPointerException) {
                     insertLast(d);
                 }
-            }
-            else{
+            } else {
                 throw new IllegalArgumentException("El tipo de dato no es válido para esta operación");
             }
         }
     }
+
     /**
      * Supone que la lista tiene al menos dos nodos. Inserta en el medio de ellos
      * 
@@ -397,5 +399,6 @@ public class DoublyLinkedList<T> {
         }
         System.out.println("last");
     }
+
 
 }

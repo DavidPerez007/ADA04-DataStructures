@@ -75,11 +75,11 @@ public class DELinkList<T> {
      */
     public void insertIncreasedSorting(T dd) {
         DELink<T> newLink = new DELink<T>(dd);
-        if (isEmpty() || castToDouble(dd) <= castToDouble(first.getData())) {
+        if (isEmpty() || castValue(dd) <= castValue(first.getData())) {
             insertFirst(dd);
         } else {
             DELink<T> current = first;
-            while (current.getNext() != null && castToDouble(current.getNext().getData()) < castToDouble(dd)) {
+            while (current.getNext() != null && castValue(current.getNext().getData()) < castValue(dd)) {
                 current = current.getNext();
             }
             if (current == last) {
@@ -103,11 +103,11 @@ public class DELinkList<T> {
      */
     public void insertDecreasedSorting(T dd) {
         DELink<T> newLink = new DELink<T>(dd);
-        if (isEmpty() || castToDouble(dd) >= castToDouble(first.getData())) {
+        if (isEmpty() || castValue(dd) >= castValue(first.getData())) {
             insertFirst(dd);
         } else {
             DELink<T> current = first;
-            while (current.getNext() != null && castToDouble(current.getNext().getData()) > castToDouble(dd)) {
+            while (current.getNext() != null && castValue(current.getNext().getData()) > castValue(dd)) {
                 current = current.getNext();
             }
             if (current == last) {
@@ -384,9 +384,21 @@ public class DELinkList<T> {
      * @return the value as a double
      * @throws IllegalArgumentException if the value cannot be converted to a double
      */
-    public static <T> double castToDouble(T value) {
+    public static double castValue(Object value) {
         if (value instanceof Double) {
             return (double) value;
+        } else if (value instanceof Float) {
+            return (double) (float) value;
+        } else if (value instanceof Integer) {
+            return (double) (int) value;
+        } else if (value instanceof Long) {
+            return (double) (long) value;
+        } else if (value instanceof Short) {
+            return (double) (short) value;
+        } else if (value instanceof Byte) {
+            return (double) (byte) value;
+        } else if (value instanceof Character) {
+            return (double) (char) value;
         } else if (value instanceof String) {
             return Double.parseDouble((String) value);
         } else {

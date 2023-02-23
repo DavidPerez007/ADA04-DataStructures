@@ -6,8 +6,7 @@
  * elements. The class includes methods to get the size of the list, clear the
  * list, check if the
  * list is empty, and get the first and last elements of the list. It also
- * includes a static method to cast values.
- * for casting a generic value to a double. The class uses a Link class to
+ * includes a static method for casting a generic value to a double. The class uses a Link class to
  * represent individual
  * elements of the list.
  *
@@ -68,10 +67,10 @@ class LinkList<T> {
         Link<T> current = first;
         Link<T> previous = null;
         try {
-            if (isEmpty() || castToDouble(current.getData()) > castToDouble(dd)) {
+            if (isEmpty() || castValue(current.getData()) > castValue(dd)) {
                 insertFirst(dd);
             } else {
-                while (current != null && castToDouble(current.getData()) < castToDouble(dd)) {
+                while (current != null && castValue(current.getData()) < castValue(dd)) {
                     previous = current;
                     current = current.getNext();
                 }
@@ -96,10 +95,10 @@ class LinkList<T> {
         Link<T> current = first;
         Link<T> previous = null;
         try {
-            if (isEmpty() || castToDouble(current.getData()) < castToDouble(dd)) {
+            if (isEmpty() || castValue(current.getData()) < castValue(dd)) {
                 insertFirst(dd);
             } else {
-                while (current != null && castToDouble(current.getData()) > castToDouble(dd)) {
+                while (current != null && castValue(current.getData()) > castValue(dd)) {
                     previous = current;
                     current = current.getNext();
                 }
@@ -379,9 +378,21 @@ class LinkList<T> {
  * @return the value as a double
  * @throws IllegalArgumentException if the value cannot be converted to a double
  */
-    public static <T> double castToDouble(T value) throws IllegalArgumentException {
+    public static double castValue(Object value) throws IllegalArgumentException {
         if (value instanceof Double) {
             return (double) value;
+        } else if (value instanceof Float) {
+            return (double) (float) value;
+        } else if (value instanceof Integer) {
+            return (double) (int) value;
+        } else if (value instanceof Long) {
+            return (double) (long) value;
+        } else if (value instanceof Short) {
+            return (double) (short) value;
+        } else if (value instanceof Byte) {
+            return (double) (byte) value;
+        } else if (value instanceof Character) {
+            return (double) (char) value;
         } else if (value instanceof String) {
             return Double.parseDouble((String) value);
         } else {
