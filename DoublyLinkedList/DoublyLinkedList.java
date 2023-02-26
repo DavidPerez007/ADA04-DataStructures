@@ -80,19 +80,18 @@ public class DoublyLinkedList<T> {
     }
 
     /**
-     * Inserta de manera ordenada ascendente, recibe un valor genérico de tipo T
+     * Inserta de manera ordenada descendente, recibe un valor genérico de tipo T
      * 
      * @param d
      * @throws IllegalArgumentException
      */
-    public void insertarOrdenadoAscendente(T d) throws IllegalArgumentException{
+    public void insertarOrdenadoDescendente(T d) throws IllegalArgumentException {
         DoublyLink<T> current = first;
         if (isEmpty()) {
             insertFirst(d);
         } else {
-            if (d instanceof Double || d instanceof Integer) {
                 try {
-                    while ((Double) current.getData() < (Double) d) {
+                    while (castValue(current.getData()) > castValue(d)) {
                         current = current.next;
                     }
                     if (isFirstNode(current)) {
@@ -104,10 +103,7 @@ public class DoublyLinkedList<T> {
                 } catch (Exception NullPointerException) {
                     insertLast(d);
                 }
-            }
-            else{
-                throw new IllegalArgumentException("El tipo de dato no es válido para esta operación");
-            }
+        
         }
     }
 
@@ -119,14 +115,13 @@ public class DoublyLinkedList<T> {
      * @param d
      * @throws IllegalArgumentException
      */ 
-    public void insertarOrdenadoDescendente(T d) throws IllegalArgumentException {
+    public void insertarOrdenadoAscendente(T d) throws IllegalArgumentException {
         DoublyLink<T> current = first;
         if (isEmpty()) {
             insertFirst(d);
         } else {
-            if (d instanceof Double || d instanceof Integer) {
                 try {
-                    while ((Double) current.getData() < (Double) d) {
+                    while (castValue(current.getData()) < castValue(d)) {
                         current = current.next;
                     }
                     if (isFirstNode(current)) {
@@ -138,9 +133,7 @@ public class DoublyLinkedList<T> {
                 } catch (Exception NullPointerException) {
                     insertLast(d);
                 }
-            } else {
-                throw new IllegalArgumentException("El tipo de dato no es válido para esta operación");
-            }
+        
         }
     }
 
@@ -382,6 +375,37 @@ public class DoublyLinkedList<T> {
      */
     public boolean isEmpty() {
         return first == null;
+    }
+
+    /**
+     * Converts a value of type T to a double.
+     * Depending on the case, it will cast from a String or a Double (and child
+     * classes) objects to a double datatype
+     *
+     * @param value the value to convert
+     * @return the value as a double
+     * @throws IllegalArgumentException if the value cannot be converted to a double
+     */
+    public static double castValue(Object value) throws IllegalArgumentException {
+        if (value instanceof Double) {
+            return (double) value;
+        } else if (value instanceof Float) {
+            return (double) (float) value;
+        } else if (value instanceof Integer) {
+            return (double) (int) value;
+        } else if (value instanceof Long) {
+            return (double) (long) value;
+        } else if (value instanceof Short) {
+            return (double) (short) value;
+        } else if (value instanceof Byte) {
+            return (double) (byte) value;
+        } else if (value instanceof Character) {
+            return (double) (char) value;
+        } else if (value instanceof String) {
+            return Double.parseDouble((String) value);
+        } else {
+            throw new IllegalArgumentException("El valor no se puede convertir a double");
+        }
     }
 
     /**
