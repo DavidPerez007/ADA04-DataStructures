@@ -1,14 +1,13 @@
+import Exceptions.EmptyListException;
+import Exceptions.IllegalArgumentException;
+import Exceptions.LinkException;
+import Exceptions.PositionNotFoundException;
+import Exceptions.ValueNotFoundException;
+
 /**
  * This class represents a singly linked list of generic elements. It provides
- * various operations
- * to manipulate the list, including adding and removing elements, updating
- * elements, and finding
- * elements. The class includes methods to get the size of the list, clear the
- * list, check if the
- * list is empty, and get the first and last elements of the list. It also
- * includes a static method for casting a generic value to a double. The class uses a Link class to
- * represent individual
- * elements of the list.
+ * various operations to manipulate the list, the class uses a Link class to
+ * represent individual elements of the list.
  *
  * @param <T> The type of elements in the list.
  */
@@ -216,17 +215,22 @@ class LinkList<T> {
      * @param oldValue The old value to search for.
      * @param newValue The new value to replace the old value with.
      * @throws LinkException If no element with the given old value is found.
+     * @throws EmptyListException
+     * @throws ValueNotFoundException
      */
-    public void updateLinkByValue(T oldValue, T newValue) throws LinkException {
-        Link<T> currentLink = first;
-        while (currentLink != null) {
-            if (currentLink.getData() == oldValue) {
-                currentLink.setData(newValue);
-            } else {
-                currentLink = currentLink.getNext();
+    public void updateLinkByValue(T oldValue, T newValue) throws LinkException, EmptyListException, ValueNotFoundException {
+        Link<T> current = first;
+        if (isEmpty())
+            throw new EmptyListException("La lista está vacía");
+        try {
+            while (current.getData() != oldValue) {
+                current = current.getNext();
             }
+            current.setData(newValue);
+        } catch (NullPointerException e) {
+            throw new ValueNotFoundException("El valor no existe en la lista");
         }
-        throw new LinkException("Error 404: node not found, couldnt update");
+
     }
 
     /**
@@ -239,19 +243,21 @@ class LinkList<T> {
      * @param position The position of the element to update.
      * @param newValue The new value to replace the old value with.
      * @throws LinkException If the list does not have the given number of elements.
+     * @throws EmptyListException
+     * @throws PositionNotFoundException
      */
-    public void updateLinkByPosition(int position, T newValue) throws LinkException {
-        Link<T> currentLink = first;
-        int counter = 0;
-        while (currentLink != null) {
-            if (counter == position) {
-                currentLink.setData(newValue);
-            } else {
-                currentLink = currentLink.getNext();
-                counter++;
+    public void updateLinkByPosition(int position, T newValue) throws LinkException, EmptyListException, PositionNotFoundException {
+        Link<T> current = first;
+        if (isEmpty())
+            throw new EmptyListException("La lista está vacía");
+        try {
+            for (int i = 0; i < position; i++) {
+                current = current.getNext();
             }
+            current.setData(newValue);
+        } catch (NullPointerException e) {
+            throw new PositionNotFoundException("La posición no existe en la lista");
         }
-        throw new LinkException("List overflow, the list has less than " + position + " elements");
 
     }
 
@@ -283,13 +289,16 @@ class LinkList<T> {
      * Displays the contents of the linked list.
      */
     public void displayList() {
-        System.out.print("List (first--> ");
         Link<T> current = first;
+        if (isEmpty()) {
+            System.out.println("la lista está vacía");
+        }
+        System.out.print("first->");
         while (current != null) {
-            current.displayLink();
+            System.out.print(current.getData() + "->");
             current = current.getNext();
         }
-        System.out.println("<--last)");
+        System.out.println("last");
     }
 
     /**

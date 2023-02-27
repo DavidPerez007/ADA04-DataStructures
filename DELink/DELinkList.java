@@ -1,6 +1,9 @@
 package DELink;
 
-import javax.naming.LinkException;
+import Exceptions.EmptyListException;
+import Exceptions.LinkException;
+import Exceptions.PositionNotFoundException;
+import Exceptions.ValueNotFoundException;
 
 /**
  * This class represents a simple linked list of generic elements, but this also
@@ -129,17 +132,22 @@ public class DELinkList<T> {
      * @param oldValue The old value to search for.
      * @param newValue The new value to replace the old value with.
      * @throws LinkException If no element with the given old value is found.
+     * @throws EmptyListException
+     * @throws ValueNotFoundException
      */
-    public void updateLinkByValue(T oldValue, T newValue) throws LinkException {
-        DELink<T> currentLink = first;
-        while (currentLink != null) {
-            if (currentLink.getData() == oldValue) {
-                currentLink.setData(newValue);
-            } else {
-                currentLink = currentLink.getNext();
+    public void updateLinkByValue(T oldValue, T newValue) throws EmptyListException, ValueNotFoundException {
+        DELink<T> current = first;
+        if (isEmpty())
+            throw new EmptyListException("La lista está vacía");
+        try {
+            while (current.getData() != oldValue) {
+                current = current.getNext();
             }
+            current.setData(newValue);
+        } catch (NullPointerException e) {
+            throw new ValueNotFoundException("El valor no existe en la lista");
         }
-        throw new LinkException("Error 404: node not found, couldnt update");
+
     }
 
     /**
@@ -152,31 +160,30 @@ public class DELinkList<T> {
      * @param position The position of the element to update.
      * @param newValue The new value to replace the old value with.
      * @throws LinkException If the list does not have the given number of elements.
+     * @throws EmptyListException
+     * @throws PositionNotFoundException
      */
-    public void updateLinkByPosition(int position, T newValue) throws LinkException {
-        DELink<T> currentLink = first;
-        int counter = 0;
-        while (currentLink != null) {
-            if (counter == position) {
-                currentLink.setData(newValue);
-            } else {
-                currentLink = currentLink.getNext();
-                counter++;
+    public void updateLinkByPosition(int position, T newValue) throws EmptyListException, PositionNotFoundException {
+        DELink<T> current = first;
+        if (isEmpty())
+            throw new EmptyListException("La lista está vacía");
+        try {
+            for (int i = 0; i < position; i++) {
+                current = current.getNext();
             }
+            current.setData(newValue);
+        } catch (NullPointerException e) {
+            throw new PositionNotFoundException("La posición no existe en la lista");
         }
-        throw new LinkException("List overflow, the list has less than " + position + " elements");
 
     }
 
     /**
      * Deletes the first element in the list that has the given value and returns
-     * it. If there are
-     * multiple elements with the same value, only the first one is deleted. If no
-     * element with the
-     * given value is found, a LinkException is thrown.
+     * it. If there are multiple elements with the same value, only the first one is deleted. If no
+     * element with the given value is found, a LinkException is thrown.
      * This method considers the case when the Link to delete has the first or last
-     * reference, in each
-     * case, it is necessary to call another method depending on the task needed,
+     * reference, in each case, it is necessary to call another method depending on the task needed,
      * either deleteFirst()
      * or deleteLast()
      * 
@@ -357,13 +364,16 @@ public class DELinkList<T> {
      * Displays the contents of the linked list.
      */
     public void displayList() {
-        System.out.print("List (first--> ");
         DELink<T> current = first;
+        if (isEmpty()) {
+            System.out.println("la lista está vacía");
+        }
+        System.out.print("first->");
         while (current != null) {
-            current.displayLink();
+            System.out.print(current.getData() + "->");
             current = current.getNext();
         }
-        System.out.println("<--last)");
+        System.out.println("last");
     }
 
     /**

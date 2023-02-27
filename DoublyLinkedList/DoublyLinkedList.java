@@ -1,3 +1,6 @@
+import Exceptions.*;
+import Exceptions.IllegalArgumentException;
+
 public class DoublyLinkedList<T> {
 
     private DoublyLink<T> first;
@@ -185,8 +188,7 @@ public class DoublyLinkedList<T> {
      * @throws PositionNotFoundException
      * @throws EmptyListException
      */
-    public void updateNodeWithPosition(int nodePosition, T newValue)
-            throws PositionNotFoundException, EmptyListException {
+    public void updateNodeWithPosition(int nodePosition, T newValue) throws PositionNotFoundException, EmptyListException {
         DoublyLink<T> current = first;
         if (isEmpty())
             throw new EmptyListException("La lista está vacía");

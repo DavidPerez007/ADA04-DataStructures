@@ -1,3 +1,4 @@
+package Exceptions;
 /**
  * Exception class to catch in different situations, mostly used when there exists a List overflow
  * 

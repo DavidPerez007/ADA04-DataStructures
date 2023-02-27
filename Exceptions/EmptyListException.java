@@ -1,3 +1,4 @@
+package Exceptions;
 /**
  * EmptyListException.java
  * Excepción que se lanza cuando se intenta acceder a un elemento de la lista y está vacía

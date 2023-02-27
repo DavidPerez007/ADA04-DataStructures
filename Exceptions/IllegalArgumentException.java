@@ -1,3 +1,4 @@
+package Exceptions;
 public class IllegalArgumentException extends Exception{
 
     public IllegalArgumentException(String message) {
