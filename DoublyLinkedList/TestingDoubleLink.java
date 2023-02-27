@@ -2,7 +2,7 @@ import Exceptions.EmptyListException;
 import Exceptions.PositionNotFoundException;
 import Exceptions.ValueNotFoundException;
 
-public class test {
+public class TestingDoubleLink {
     public static void main(String[] args) {
 
         DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>();
